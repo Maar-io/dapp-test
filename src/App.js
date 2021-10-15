@@ -5,6 +5,8 @@ import './App.css';
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
 
 import NodeInfo from './NodeInfo';
+import Register from './Register';
+import DappsCount from './DappsCount';
 
 
 function Main () {
@@ -44,7 +46,10 @@ function Main () {
       <Grid stackable columns='equal'>
           <Grid.Row stretched>
               <NodeInfo/>
+              <DappsCount/>
+              <Register/>
           </Grid.Row>
+
       </Grid>
     </div>
   );
