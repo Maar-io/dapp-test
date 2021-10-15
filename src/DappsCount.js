@@ -22,7 +22,7 @@ function Main (props) {
       .catch(console.error);
 
     return () => unsubscribe;
-  }, [api.query.dappsStaking, api.query.dappsStaking.registeredDapps]);
+  }, [api.query.dappsStaking.registeredDapps]);
 
   return (
     <Grid.Column>
