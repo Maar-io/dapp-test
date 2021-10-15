@@ -4,40 +4,47 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { useSubstrate } from './substrate-lib';
 import { Keyring } from '@polkadot/api';
 
-const INIT_BALANCE = 100_000_000_000_000;
+const INIT_BALANCE = parseInt(100_000_000_000_000);
 function Main(props) {
   const keyring = new Keyring({ type: 'sr25519' });
 
   const { api } = useSubstrate();
   const [dappsCount, setDappsCount] = useState(0);
 
-  const contract = '0x0000000000000000000000000000000000000003';
-  // const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
   const richGirl = keyring.addFromUri('//Alice');
   const developer = keyring.addFromUri('//Bob');
 
+  
   const getAddressEnum = (address) => (
     { 'Evm': address }
-  );
+    );
+    
+    // Create a extrinsic, transferring randomAmount units to Bob.
+    
+    const onRegister = () => {
+    const devList = [
+      ['//Alice', '0x0000000000000000000000000000000000000005'],
+      ['//Bob', '0x0000000000000000000000000000000000000006'],
+      ['//Charlie', '0x0000000000000000000000000000000000000007']
+    ];
+    // endowment(developer);
+    devList.forEach((dev) => {
+      const developer = keyring.addFromUri(dev[0]);
+      const contract = dev[1];
+      const register = api.tx.dappsStaking.register(getAddressEnum(contract));
+      register.signAndSend(developer, ({ events = [], status }) => {
+        if (status.isInBlock) {
+          console.log('Successful registration of ' + contract + ' with hash ' + status.asInBlock.toHex());
+        } else {
+          console.log('Status of transfer: ' + status.type);
+        }
 
-  // Create a extrinsic, transferring randomAmount units to Bob.
-
-  const onRegister = () => {
-    const injector = web3FromSource('polkadot-js');
-    //endowment(developer);
-    const register = api.tx.dappsStaking.register(getAddressEnum(contract));
-    register.signAndSend(developer, ({ events = [], status }) => {
-      if (status.isInBlock) {
-        console.log('Successful registration of ' + contract + ' with hash ' + status.asInBlock.toHex());
-      } else {
-        console.log('Status of transfer: ' + status.type);
+        events.forEach(({ phase, event: { data, method, section } }) => {
+          console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
+        });
       }
-
-      events.forEach(({ phase, event: { data, method, section } }) => {
-        console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
-      });
-    }
-    ).catch(console.error);
+      ).catch(console.error);
+    });
   }
 
   const endowment = async (account) => {

@@ -5,8 +5,11 @@ import './App.css';
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
 
 import NodeInfo from './NodeInfo';
-import Register from './Register';
 import DappsCount from './DappsCount';
+import EraStaked from './EraStaked';
+
+import Register from './Register';
+import Stake from './Stake';
 
 
 function Main () {
@@ -47,9 +50,14 @@ function Main () {
           <Grid.Row stretched>
               <NodeInfo/>
               <DappsCount/>
+              <EraStaked/>
+          </Grid.Row>
+          <Grid.Row>
               <Register/>
           </Grid.Row>
-
+          <Grid.Row>
+              <Stake/>
+          </Grid.Row>
       </Grid>
     </div>
   );
