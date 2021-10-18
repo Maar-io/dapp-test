@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { Card, Form, Grid } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { Keyring } from '@polkadot/api';
@@ -6,7 +7,9 @@ import BN from 'bn.js';
 function Main(props) {
   const keyring = new Keyring({ type: 'sr25519' });
   const { api } = useSubstrate();
+  const [numStakers, setNumStakers] = useState(0);
   const STAKE_AMOUNT = new BN('100000000000000000000');
+  const STAKE_AMOUNT_HUMAN = STAKE_AMOUNT.div( new BN('1000000000000000000') );
 
   const getAddressEnum = (address) => (
     { 'Evm': address }
@@ -33,13 +36,17 @@ function Main(props) {
     });
   }
 
+  useEffect( () => {
+    setNumStakers(props.list.length);
+  }, [props.list.length]);
+
   return (
     <Grid.Column>
       <Card>
         <Form widths='equal'>
           <Form.Group widths='equal'>
-            <Form.Input fluid label='stakers' placeholder='num stakers (1-7)' />
-            <Form.Input fluid label='amount' placeholder='amount' />
+            <Form.Input fluid label='Stakers (1-7)' placeholder={numStakers} />
+            <Form.Input fluid label='Amount' placeholder={STAKE_AMOUNT_HUMAN} />
           </Form.Group>
           <Form.Button onClick={onStake}>Stake</Form.Button>
         </Form>

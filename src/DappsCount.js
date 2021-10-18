@@ -20,8 +20,10 @@ function Main (props) {
     )
       .catch(console.error);
 
+
+        
     return () => unsubscribe;
-  }, [api.query.dappsStaking]);
+  }, [api.query.dappsStaking, api.derive.chain.bestNumber]);
 
   return (
     <Grid.Column>

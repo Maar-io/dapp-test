@@ -9,6 +9,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 function Main(props) {
   const { api } = useSubstrate();
   const [allContracts, setAllContracts] = useState([]);
+  // const [numClaims, setNumClaims] = useState(0);
 
   const getAddressEnum = (address) => (
     { 'Evm': address }
@@ -17,7 +18,7 @@ function Main(props) {
   const claimAllContracts = () => {
     let i = 0;
     const claimerList = props.list;
-    
+
     allContracts.forEach(contract => {
       const claimer = keyring.addFromUri(claimerList[i][0]);
       console.log("claim contract", i, contract);
@@ -41,11 +42,11 @@ function Main(props) {
 
   const getAllContracts = () => {
     let unsubscribe;
-
     unsubscribe = api.query.dappsStaking.registeredDapps.keys().then(
       result => {
         const contractList = result.map(c => '0x' + c.toString().slice(-40))
         setAllContracts(contractList);
+        console.log("getAllContracts", contractList);
       }
     )
       .catch(console.error);
@@ -54,13 +55,16 @@ function Main(props) {
   };
 
   useEffect(getAllContracts, [api.query.dappsStaking.registeredDapps]);
+  // useEffect( () => {
+  //   setNumClaims(props.list.length);
+  // }, []);
 
   return (
     <Grid.Column>
       <Card>
         <Form widths='equal'>
           <Form.Group widths='equal'>
-            <Form.Input fluid label='Contracts to claim' placeholder='num contracts (1-7)' />
+            <Form.Input fluid label='Contracts to claim (1-7)' placeholder={'2'} />
           </Form.Group>
           <Form.Button onClick={claimAllContracts}>Claim</Form.Button>
         </Form>

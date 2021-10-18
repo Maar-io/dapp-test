@@ -1,9 +1,13 @@
+import React, { useEffect, useState } from 'react';
+
 import { Form, Card, Grid} from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { Keyring } from '@polkadot/api';
 
 function Main(props) {
   const keyring = new Keyring({ type: 'sr25519' });
+  const [numRegistrations, setNumRegistrations] = useState(0);
+
 
   const { api } = useSubstrate();
 
@@ -13,6 +17,7 @@ function Main(props) {
 
   const onRegister = () => {
     const devList = props.list;
+
     // endowment(developer);
     devList.forEach((dev) => {
       const developer = keyring.addFromUri(dev[0]);
@@ -52,12 +57,16 @@ function Main(props) {
   //     ).catch(console.error);
   // }
 
+  useEffect( () => {
+    setNumRegistrations(props.list.length);
+  }, [props.list.length]);
+
   return (
     <Grid.Column>
       <Card>
         <Form widths='equal'>
           <Form.Group widths='equal'>
-            <Form.Input fluid label='Register contracts' placeholder='num contracts (1-7)' />
+            <Form.Input fluid label='Register contracts (1-7)' placeholder={numRegistrations} />
           </Form.Group>
           <Form.Button onClick={onRegister}>Register</Form.Button>
         </Form>

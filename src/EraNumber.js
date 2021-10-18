@@ -8,22 +8,22 @@ function Main(props) {
   const [era, setCurrentEra] = useState(0);
   const [blockCountdown, setBlockCountdown] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [bestNumber, setBestNumber] = useState(0);
-  const [blockPerEra, setBlockPerEra] = useState(0);
 
-  const getBest = () => {
-    const perEra = api.consts.dappsStaking.blockPerEra.toNumber();
-    setBlockPerEra(perEra);
-    const best = api.derive.chain.bestNumber;
-    setBestNumber(best);
-  }
-  useEffect(getBest, [api.consts.dappsStaking.blockPerEra, api.derive.chain.bestNumber]);
+  const blockPerEra = api.consts.dappsStaking.blockPerEra.toNumber();
+  const currentEra = api.query.dappsStaking.currentEra;
+  const bestNumber = api.derive.chain.bestNumber;
 
   useEffect(() => {
     let unsubscribeAll = null;
 
-    setProgress((bestNumber % blockPerEra) / blockPerEra * 100);
-    setBlockCountdown(blockPerEra - (bestNumber % blockPerEra));
+    bestNumber(number => {
+      setProgress((number % blockPerEra) / blockPerEra * 100);
+      setBlockCountdown(blockPerEra - (number % blockPerEra));
+    })
+      .then(unsub => {
+        unsubscribeAll = unsub;
+      })
+      .catch(console.error);
 
     api.query.dappsStaking.currentEra(e => {
       setCurrentEra(e.toNumber());
@@ -31,7 +31,7 @@ function Main(props) {
 
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.dappsStaking, blockPerEra, bestNumber]);
+  }, [currentEra, bestNumber, blockPerEra, api.query.dappsStaking]);
 
   return (
     <Grid.Column>
@@ -43,7 +43,7 @@ function Main(props) {
           />
         </Card.Content>
         <Card.Content extra>
-          <Progress percent={progress} indicating success />
+          <Progress percent={progress} indicating success/>
           Blocks until new era :
           <Icon name='time' /> {blockCountdown}
         </Card.Content>

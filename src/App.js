@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Dimmer, Loader, Grid, Message, Divider, Container } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
