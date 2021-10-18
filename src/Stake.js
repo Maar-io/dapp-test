@@ -16,7 +16,7 @@ function Main(props) {
   );
 
   const onStake = () => {
-    const stakerList = props.list;
+    const stakerList = props.list.reverse();
     stakerList.forEach((s) => {
       const staker = keyring.addFromUri(s[0]);
       const contract = s[1];

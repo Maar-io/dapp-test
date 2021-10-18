@@ -7,6 +7,7 @@ import NodeInfo from './NodeInfo';
 import EraNumber from './EraNumber';
 import DappsCount from './DappsCount';
 import EraStaked from './EraStaked';
+import Constants from './Constants';
 
 import Register from './Register';
 import Stake from './Stake';
@@ -65,6 +66,10 @@ function Main () {
             <DappsCount/>
             <EraStaked/>
             <NodeInfo/>
+          </Grid.Row>
+          <Divider/>
+          <Grid.Row>
+            <Constants />
           </Grid.Row>
           <Divider/>
           <Grid.Row stretched>
