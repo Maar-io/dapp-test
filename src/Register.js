@@ -12,10 +12,7 @@ function Main(props) {
   );
 
   const onRegister = () => {
-    const devList = [
-      ['//Alice', '0x0000000000000000000000000000000000000005'],
-      ['//Bob', '0x0000000000000000000000000000000000000006'],
-    ];
+    const devList = props.list;
     // endowment(developer);
     devList.forEach((dev) => {
       const developer = keyring.addFromUri(dev[0]);

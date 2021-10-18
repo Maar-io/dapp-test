@@ -15,13 +15,11 @@ function Main(props) {
   );
 
   const claimAllContracts = () => {
-    const claimerList = [
-      '//Alice', '//Bob'
-    ];
     let i = 0;
-
+    const claimerList = props.list;
+    
     allContracts.forEach(contract => {
-      const claimer = keyring.addFromUri(claimerList[i]);
+      const claimer = keyring.addFromUri(claimerList[i][0]);
       console.log("claim contract", i, contract);
       i += 1;
       const claim = api.tx.dappsStaking.claim(getAddressEnum(contract));

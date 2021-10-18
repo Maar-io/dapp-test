@@ -13,10 +13,7 @@ function Main(props) {
   );
 
   const onStake = () => {
-    const stakerList = [
-      ['//Alice', '0x0000000000000000000000000000000000000005'],
-      ['//Bob', '0x0000000000000000000000000000000000000006'],
-    ];
+    const stakerList = props.list;
     stakerList.forEach((s) => {
       const staker = keyring.addFromUri(s[0]);
       const contract = s[1];

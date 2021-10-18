@@ -17,9 +17,13 @@ import ForceEra from './ForceEra';
 
 
 function Main () {
-  const [contractList] = useState(null);
   const { apiState, keyringState, apiError } = useSubstrate();
-
+  const contractList =
+    [
+       ['//Alice', '0x0000000000000000000000000000000000000005'],
+       ['//Bob', '0x0000000000000000000000000000000000000006'],
+     ];
+  
   const loader = text =>
     <Dimmer active>
       <Loader size='small'>{text}</Loader>
@@ -65,13 +69,13 @@ function Main () {
           </Grid.Row>
           <Divider/>
           <Grid.Row stretched>
-            <Register/>
-            <Stake/>
-            <Unstake/>
+            <Register list={contractList}/>
+            <Stake list={contractList}/>
+            <Unstake list={contractList}/>
           </Grid.Row>
           <Grid.Row stretched>
             <ForceEra/>
-            <Claim/>
+            <Claim list={contractList}/>
           </Grid.Row>
 
       </Grid>
