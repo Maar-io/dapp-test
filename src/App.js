@@ -1,5 +1,5 @@
-import React, { useState, createRef } from 'react';
-import { Dimmer, Loader, Grid, Message, Divider } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Dimmer, Loader, Grid, Message, Divider, Container } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
@@ -17,12 +17,8 @@ import ForceEra from './ForceEra';
 
 
 function Main () {
-  const [accountAddress] = useState(null);
-  const { apiState, keyring, keyringState, apiError } = useSubstrate();
-  const accountPair =
-    accountAddress &&
-    keyringState === 'READY' &&
-    keyring.getPair(accountAddress);
+  const [contractList] = useState(null);
+  const { apiState, keyringState, apiError } = useSubstrate();
 
   const loader = text =>
     <Dimmer active>
@@ -46,30 +42,40 @@ function Main () {
     return loader('Loading accounts (please review any extension\'s authorization)');
   }
 
-  const contextRef = createRef();
+  // const contextRef = createRef();
 
   return (
     <div className="App">
+      <Container>
+        <h1>dApps Staking tester</h1>
+      <style>
+          {`
+            html, body {
+              background-color: #283925 !important;
+            }
+          }
+          `}
+        </style>
       <Grid stackable columns='equal'>
           <Grid.Row stretched>
             <EraNumber/>
-              <NodeInfo/>
-              <DappsCount/>
-              <EraStaked/>
+            <DappsCount/>
+            <EraStaked/>
+            <NodeInfo/>
           </Grid.Row>
           <Divider/>
-          <Grid.Row>
-              <Register/>
+          <Grid.Row stretched>
+            <Register/>
+            <Stake/>
+            <Unstake/>
           </Grid.Row>
-          <Grid.Row>
-              <Stake/>
-              <Unstake/>
-              <Claim/>
+          <Grid.Row stretched>
+            <ForceEra/>
+            <Claim/>
           </Grid.Row>
-          <Grid.Row>
-              <ForceEra/>
-          </Grid.Row>
+
       </Grid>
+      </Container>
     </div>
   );
 }

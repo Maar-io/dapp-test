@@ -1,4 +1,4 @@
-import { Grid, Card, Button, Form } from 'semantic-ui-react';
+import { Card, Form, Grid } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { Keyring } from '@polkadot/api';
 import BN from 'bn.js';
@@ -37,15 +37,17 @@ function Main(props) {
   }
 
   return (
-    <Card>
-      <Form widths='equal'>
-        <Form.Group widths='equal'>
-          <Form.Input fluid label='stakers' placeholder='num stakers (1-7)' />
-          <Form.Input fluid label='amount' placeholder='amount' />
-        </Form.Group>
-        <Form.Button onClick={onStake}>Unstake</Form.Button>
-      </Form>
-    </Card>
+    <Grid.Column>
+      <Card>
+        <Form widths='equal'>
+          <Form.Group widths='equal'>
+            <Form.Input fluid label='stakers' placeholder='num stakers (1-7)' />
+            <Form.Input fluid label='amount' placeholder='amount' />
+          </Form.Group>
+          <Form.Button onClick={onStake}>Unstake</Form.Button>
+        </Form>
+      </Card>
+    </Grid.Column>
   );
 }
 

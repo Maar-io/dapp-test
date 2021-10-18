@@ -13,7 +13,6 @@ function Main (props) {
     api.query.dappsStaking.preApprovalIsEnabled((result) => {
       setPreApproval(result.toString());
     });
-    console.log("DappsCount useEffect");
     api.query.dappsStaking.registeredDapps.keys().then(
       result => {
         setDappsCount(result.length);
@@ -22,7 +21,7 @@ function Main (props) {
       .catch(console.error);
 
     return () => unsubscribe;
-  }, [api.query.dappsStaking.registeredDapps]);
+  }, [api.query.dappsStaking]);
 
   return (
     <Grid.Column>

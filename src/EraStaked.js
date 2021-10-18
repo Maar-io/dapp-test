@@ -15,7 +15,6 @@ function Main (props) {
     api.query.dappsStaking.currentEra(e => {
       setCurrentEra(e.toNumber());
     });
-    console.log("EraStaked useEffect");
 
     api.query.dappsStaking.eraRewardsAndStakes(era, (result) => {
       if (result.isNone) {
@@ -38,7 +37,7 @@ function Main (props) {
     .catch(console.error);
     
     return () => unsubscribe;
-  }, [api.query.dappsStaking.eraRewardsAndStakes, era]);
+  }, [api.query.dappsStaking, era]);
 
   return (
     <Grid.Column>
