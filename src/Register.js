@@ -25,7 +25,6 @@ function Main(props) {
     const devList = [
       ['//Alice', '0x0000000000000000000000000000000000000005'],
       ['//Bob', '0x0000000000000000000000000000000000000006'],
-      ['//Charlie', '0x0000000000000000000000000000000000000007']
     ];
     // endowment(developer);
     devList.forEach((dev) => {

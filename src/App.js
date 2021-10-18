@@ -1,15 +1,19 @@
 import React, { useState, createRef } from 'react';
-import { Dimmer, Loader, Grid, Message } from 'semantic-ui-react';
+import { Dimmer, Loader, Grid, Message, Divider } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
 
 import NodeInfo from './NodeInfo';
+import EraNumber from './EraNumber';
 import DappsCount from './DappsCount';
 import EraStaked from './EraStaked';
 
 import Register from './Register';
 import Stake from './Stake';
+import Unstake from './Unstake';
+import Claim from './Claim';
+import ForceEra from './ForceEra';
 
 
 function Main () {
@@ -48,15 +52,22 @@ function Main () {
     <div className="App">
       <Grid stackable columns='equal'>
           <Grid.Row stretched>
+            <EraNumber/>
               <NodeInfo/>
               <DappsCount/>
               <EraStaked/>
           </Grid.Row>
+          <Divider/>
           <Grid.Row>
               <Register/>
           </Grid.Row>
           <Grid.Row>
               <Stake/>
+              <Unstake/>
+              <Claim/>
+          </Grid.Row>
+          <Grid.Row>
+              <ForceEra/>
           </Grid.Row>
       </Grid>
     </div>

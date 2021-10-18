@@ -13,8 +13,8 @@ function Main (props) {
     api.query.dappsStaking.preApprovalIsEnabled((result) => {
       setPreApproval(result.toString());
     });
-
-    unsubscribe = api.query.dappsStaking.registeredDapps.keys().then(
+    console.log("DappsCount useEffect");
+    api.query.dappsStaking.registeredDapps.keys().then(
       result => {
         setDappsCount(result.length);
       }
