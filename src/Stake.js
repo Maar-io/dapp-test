@@ -15,24 +15,28 @@ function Main(props) {
     { 'Evm': address }
   );
 
-  const onStake = () => {
-    const stakerList = props.list.reverse();
-    stakerList.forEach((s) => {
-      const staker = keyring.addFromUri(s[0]);
-      const contract = s[1];
-      const stake = api.tx.dappsStaking.bondAndStake(getAddressEnum(contract), STAKE_AMOUNT);
-      stake.signAndSend(staker, ({ events = [], status }) => {
-        if (status.isInBlock) {
-          console.log('Successful stake of ' + contract + ' with balance ' + STAKE_AMOUNT);
-        } else {
-          console.log('Status of transfer: ' + status.type);
-        }
+  const onStake = async () => {
+    const stakerList = props.list;
+    const contractList = props.list;
+    contractList.forEach((c) => {
+      const contract = c[1];
+      stakerList.forEach((s) => {
+        const staker = keyring.addFromUri(s[0]);
+        console.log('Staker ' + s[0].toString() + 'on' + contract + ' with balance ' + STAKE_AMOUNT);
+        const stake = api.tx.dappsStaking.bondAndStake(getAddressEnum(contract), STAKE_AMOUNT);
+        stake.signAndSend(staker, ({ events = [], status }) => {
+          if (status.isInBlock) {
+            console.log('Successful stake of ' + contract + ' with balance ' + STAKE_AMOUNT);
+          } else {
+            console.log('Status of transfer: ' + status.type);
+          }
 
-        events.forEach(({ phase, event: { data, method, section } }) => {
-          console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
-        });
-      }
-      ).catch(console.error);
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
+          });
+        }
+        ).catch(console.error);
+      });
     });
   }
 

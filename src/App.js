@@ -20,10 +20,10 @@ function Main () {
   const { apiState, keyringState, apiError } = useSubstrate();
   const contractList =
     [
-       ['//Alice', '0x0000000000000000000000000000000000000005'],
-       ['//Bob', '0x0000000000000000000000000000000000000006'],
+       ['//Alice', '0x9000000000000000000000000000000000000005'],
+       ['//Bob', '0x9000000000000000000000000000000000000006'],
      ];
-  
+
   const loader = text =>
     <Dimmer active>
       <Loader size='small'>{text}</Loader>

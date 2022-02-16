@@ -21,10 +21,12 @@ function Main(props) {
     // endowment(developer);
     devList.forEach((dev) => {
       const developer = keyring.addFromUri(dev[0]);
+      console.log('try register from developer: ', developer, developer.address);
       const contract = dev[1];
       const register = api.tx.dappsStaking.register(getAddressEnum(contract));
       register.signAndSend(developer, ({ events = [], status }) => {
         if (status.isInBlock) {
+          console.log('registering developer: ' + developer.address);
           console.log('Successful registration of ' + contract + ' with hash ' + status.asInBlock.toHex());
         } else {
           console.log('Status of transfer: ' + status.type);
